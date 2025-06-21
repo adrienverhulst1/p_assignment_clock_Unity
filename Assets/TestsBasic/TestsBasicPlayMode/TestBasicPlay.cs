@@ -12,10 +12,4 @@ public class TestBasicPlay
     {
         Assert.IsTrue(Application.isPlaying);
     }
-
-    [Test]
-    public void TestBasicPlaySimplePasses2()
-    {
-        Assert.IsFalse(Application.isPlaying);
-    }
 }
