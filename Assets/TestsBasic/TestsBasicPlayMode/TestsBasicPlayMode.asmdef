@@ -1,0 +1,6 @@
+{
+    "name": "TestsBasicPlayMode",
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ]
+}
