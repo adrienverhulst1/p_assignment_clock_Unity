@@ -2,7 +2,7 @@ using Cysharp.Threading.Tasks;
 using System;
 using UniRx;
 
-public interface ITimeService
+public interface IClockService
 {
     IReadOnlyReactiveProperty<DateTime> NowUtc { get; }
     IReadOnlyReactiveProperty<DateTime> NowJst { get; }

@@ -13,7 +13,7 @@ public class TimeUI : MonoBehaviour
     private readonly CompositeDisposable composite_disposable = new();
 
     [Inject]
-    public void Construct(ITimeService time_service)
+    public void Construct(IClockService time_service)
     {
         time_service.NowUtc
             .Subscribe(dt => time_utc_txt.text = dt.ToString("HH:mm:ss:ffff"))

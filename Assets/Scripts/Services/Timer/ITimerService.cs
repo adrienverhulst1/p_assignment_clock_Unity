@@ -8,4 +8,5 @@ public interface ITimerService
     void Pause();
     void Resume();
     void Reset();
+    IObservable<Unit> OnFinished { get; }
 }

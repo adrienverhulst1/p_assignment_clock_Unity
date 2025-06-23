@@ -10,7 +10,7 @@ public class AppLifetimeScope : LifetimeScope
     protected override void Configure(IContainerBuilder builder)
     {
         builder.Register<NTPTimeSyncClient>(Lifetime.Singleton).As<ITimeSyncClient>();
-        builder.Register<TimeService>(Lifetime.Singleton).As<ITimeService>();
+        builder.Register<ClockService>(Lifetime.Singleton).As<IClockService>();
 
         builder.RegisterComponent(time_ui);
     }
