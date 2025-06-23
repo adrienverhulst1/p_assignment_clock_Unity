@@ -4,7 +4,7 @@ using VContainer;
 using UniRx;
 using System;
 
-public class TimeUI : MonoBehaviour
+public class ClockUI : MonoBehaviour
 {
     [SerializeField] private TMPro.TMP_Text time_utc_txt;
     [SerializeField] private TMPro.TMP_Text time_jst_txt;
@@ -13,17 +13,17 @@ public class TimeUI : MonoBehaviour
     private readonly CompositeDisposable composite_disposable = new();
 
     [Inject]
-    public void Construct(IClockService time_service)
+    public void Construct(IClockService clock_service)
     {
-        time_service.NowUtc
+        clock_service.NowUtc
             .Subscribe(dt => time_utc_txt.text = dt.ToString("HH:mm:ss:ffff"))
             .AddTo(composite_disposable);
 
-        time_service.NowJst
+        clock_service.NowJst
             .Subscribe(dt => time_jst_txt.text = dt.ToString("HH:mm:ss:ffff"))
             .AddTo(composite_disposable);
 
-        time_service.NowLocal
+        clock_service.NowLocal
             .Subscribe(dt => time_local_txt.text = dt.ToString("HH:mm:ss:ffff"))
             .AddTo(composite_disposable);
     }

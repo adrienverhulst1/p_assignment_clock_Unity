@@ -5,9 +5,11 @@ using UniRx;
 public class TimerService : ITimerService, IDisposable
 {
     public IReadOnlyReactiveProperty<TimeSpan> RemainingTime => remaining_time;
+    public IReadOnlyReactiveProperty<int> CurrentState => current_state;
     public IObservable<Unit> OnFinished => on_finished.AsObservable();
 
     readonly ReactiveProperty<TimeSpan> remaining_time = new(TimeSpan.Zero);
+    readonly ReactiveProperty<int> current_state = new(0);
     readonly Subject<Unit> on_finished = new();
     readonly CompositeDisposable composite_disposable = new();
     readonly TimeInternal time_internal;
@@ -33,11 +35,13 @@ public class TimerService : ITimerService, IDisposable
 
     public void Reset()
     {
+        current_state.Value = 0;
         remaining_time.Value = TimeSpan.Zero;
     }
 
     public void Pause()
     {
+        current_state.Value = 2;
         time_internal.Dispose();
     }
 
@@ -48,6 +52,8 @@ public class TimerService : ITimerService, IDisposable
 
     void Continue()
     {
+        current_state.Value = 1;
+
         TimeSpan temp_timespan = TimeSpan.Zero;
         TimeSpan dt;
         TimeSpan temp_time_elapsed = TimeSpan.Zero;
@@ -60,6 +66,7 @@ public class TimerService : ITimerService, IDisposable
                 remaining_time.Value -= dt;
                 if (remaining_time.Value <= TimeSpan.Zero)
                 {
+                    current_state.Value = 0;
                     remaining_time.Value = TimeSpan.Zero;
                     on_finished.OnNext(Unit.Default);
                     on_finished.OnCompleted();
@@ -71,6 +78,7 @@ public class TimerService : ITimerService, IDisposable
 
     public void Dispose()
     {
+        current_state.Value = 0;
         composite_disposable.Dispose();
     }
 }

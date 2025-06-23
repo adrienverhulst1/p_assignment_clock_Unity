@@ -16,12 +16,12 @@ public class TimeInternal : IDisposable
 
     public TimeInternal()
     {
+        StartTicking().Forget();
+
         Now = Now_Elapsed_Time
             .Select(x => DateTime.UtcNow + x)
             .ToReadOnlyReactiveProperty()
             .AddTo(composite_disposable);
-
-        StartTicking().Forget();
     }
 
     private async UniTaskVoid StartTicking()
