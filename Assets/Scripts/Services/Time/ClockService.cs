@@ -11,24 +11,24 @@ public class ClockService : IClockService, IDisposable
     readonly CompositeDisposable composite_disposable = new();
 
     private readonly ITimeSyncClient time_sync_client;
-    TimeSpan time_network_offset = TimeSpan.Zero;
+    DateTime network_time = DateTime.UtcNow;
 
     public ClockService(ITimeInternal time_internal, ITimeSyncClient time_sync_client)
     {
         this.time_sync_client = time_sync_client;
 
-        NowUtc = time_internal.Now
-            .Select(x => x + time_network_offset)
+        NowUtc = time_internal.Now_Elapsed_Time
+            .Select(x => network_time + x)
             .ToReadOnlyReactiveProperty()
             .AddTo(composite_disposable);
 
-        NowJst = time_internal.Now
-            .Select(x => x + time_network_offset + TimeSpan.FromHours(9))
+        NowJst = time_internal.Now_Elapsed_Time
+            .Select(x => network_time + TimeSpan.FromHours(9) + x)
             .ToReadOnlyReactiveProperty()
             .AddTo(composite_disposable);
 
-        NowLocal = time_internal.Now
-            .Select(x => x.ToLocalTime())
+        NowLocal = time_internal.Now_Elapsed_Time
+            .Select(x => network_time.ToLocalTime() + x)
             .ToReadOnlyReactiveProperty()
             .AddTo(composite_disposable);
     }
@@ -41,7 +41,7 @@ public class ClockService : IClockService, IDisposable
     public async UniTask RefreshAsync()
     {
         var temp_network_time = await time_sync_client.GetNetworkTimeAsync();
-        if (temp_network_time.HasValue) time_network_offset = temp_network_time.Value - DateTime.UtcNow;
+        if (temp_network_time.HasValue) network_time = temp_network_time.Value;
         else throw new Exception($"RefreshAsync {temp_network_time} {temp_network_time.HasValue}");
     }
 }

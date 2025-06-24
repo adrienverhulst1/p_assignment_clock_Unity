@@ -9,6 +9,13 @@ public enum SWStatus
     Stopped
 }
 
+public enum TStatus
+{
+    Started,
+    Paused,
+    Stopped
+}
+
 public class AppLifetimeScope : LifetimeScope
 {
     [SerializeField]

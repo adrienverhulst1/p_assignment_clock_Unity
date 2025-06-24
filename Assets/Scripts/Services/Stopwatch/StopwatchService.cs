@@ -25,7 +25,7 @@ public class StopwatchService : IStopwatchService, IDisposable
         //ElapsedTime = time_internal.Now_Elapsed_Time
         //    .WithLatestFrom(CurrentState, (now, state) => new { now, state })
         //    .Where(x => x.state == SWStatus.Started)
-        //    .Select(x => x.now - time_elapsed_at_begin)
+        //    .Select(x => x.now - time_offset)
         //    .ToReadOnlyReactiveProperty()
         //    .AddTo(composite_disposable);
 

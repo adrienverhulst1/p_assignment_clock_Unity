@@ -17,15 +17,15 @@ public class TimerUI : MonoBehaviour
     public void Construct(ITimerService timer_service)
     {
         play_button.OnClickAsObservable()
-            .Subscribe(_ => timer_service.Start(TimeSpan.FromSeconds(10)))
+            .Subscribe(_ => timer_service.Start.Execute(TimeSpan.FromSeconds(10)))
             .AddTo(this);
 
         pause_button.OnClickAsObservable()
-            .Subscribe(_ => timer_service.Pause())
+            .Subscribe(_ => timer_service.Pause.Execute(Unit.Default))
             .AddTo(this);
 
         reset_button.OnClickAsObservable()
-            .Subscribe(_ => timer_service.Reset())
+            .Subscribe(_ => timer_service.Reset.Execute(Unit.Default))
             .AddTo(this);
 
         timer_service.RemainingTime.Subscribe(dt => time.text = dt.ToString(@"mm\:ss\.fff"))
@@ -33,17 +33,17 @@ public class TimerUI : MonoBehaviour
 
         timer_service.CurrentState.Subscribe(x =>
         {
-            if(x == 0)
+            if(x == TStatus.Stopped)
             {
                 play_button.gameObject.SetActive(true);
                 pause_button.gameObject.SetActive(false);
             }
-            if (x == 1)
+            if (x == TStatus.Started)
             {
                 play_button.gameObject.SetActive(false);
                 pause_button.gameObject.SetActive(true);
             }
-            if (x == 2)
+            if (x == TStatus.Paused)
             {
                 play_button.gameObject.SetActive(true);
                 pause_button.gameObject.SetActive(false);

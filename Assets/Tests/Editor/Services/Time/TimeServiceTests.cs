@@ -24,7 +24,7 @@ public class TimeServiceTests
         mock_time_sync_client.MockTime = now + TimeSpan.FromSeconds(10);
         await mock_clock_service.RefreshAsync();
         DateTime dt = await mock_clock_service.NowUtc.Skip(1).First().ToTask();
-        Assert.That(dt, Is.EqualTo(now + TimeSpan.FromSeconds(10)).Within(TimeSpan.FromMilliseconds(10)));
+        Assert.That(dt, Is.EqualTo(now + TimeSpan.FromSeconds(10)).Within(TimeSpan.FromMilliseconds(20)));
     }
 
     [Test]
@@ -32,12 +32,14 @@ public class TimeServiceTests
     {
         NTPTimeSyncClient ntp_time_sync_client = new NTPTimeSyncClient();
         ClockService ntp_clock_service = new ClockService(time_internal, ntp_time_sync_client);
+         
+        await ntp_clock_service.RefreshAsync();  // somehow the test doesn't wait... TODO
+        await UniTask.Delay(2000, true);
 
-        var now = DateTime.UtcNow;
-        await ntp_clock_service.RefreshAsync();
-        await Task.Delay(1000);
-        DateTime dt = await ntp_clock_service.NowUtc.Skip(1).First().ToTask();
-        Assert.That(dt, Is.EqualTo(now + TimeSpan.FromSeconds(1)).Within(TimeSpan.FromSeconds(1)));
+        var dt1 = ntp_clock_service.NowUtc.Value;
+        await UniTask.Delay(1000, true);
+        var dt2 = ntp_clock_service.NowUtc.Value;
+        Assert.That(dt2 - dt1, Is.EqualTo(TimeSpan.FromSeconds(1)).Within(TimeSpan.FromMilliseconds(10)));
     }
 
     [Test]

@@ -7,7 +7,6 @@ using System.Diagnostics;
 public class TimeInternal : ITimeInternal, IDisposable
 {
     public IReadOnlyReactiveProperty<TimeSpan> Now_Elapsed_Time => now_elapsed_time;
-    public IReadOnlyReactiveProperty<DateTime> Now { get; }
     readonly ReactiveProperty<TimeSpan> now_elapsed_time = new(TimeSpan.Zero);
     readonly CompositeDisposable composite_disposable = new();
 
@@ -17,11 +16,6 @@ public class TimeInternal : ITimeInternal, IDisposable
     public TimeInternal()
     {
         StartTicking().Forget();
-
-        Now = Now_Elapsed_Time
-            .Select(x => DateTime.UtcNow + x)
-            .ToReadOnlyReactiveProperty()
-            .AddTo(composite_disposable);
     }
 
     private async UniTaskVoid StartTicking()
