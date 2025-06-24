@@ -4,7 +4,7 @@ using UniRx;
 using Cysharp.Threading.Tasks;
 using System.Diagnostics;
 
-public class TimeInternal : IDisposable
+public class TimeInternal : ITimeInternal, IDisposable
 {
     public IReadOnlyReactiveProperty<TimeSpan> Now_Elapsed_Time => now_elapsed_time;
     public IReadOnlyReactiveProperty<DateTime> Now { get; }

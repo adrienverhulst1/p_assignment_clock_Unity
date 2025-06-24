@@ -12,11 +12,11 @@ public class TimerService : ITimerService, IDisposable
     readonly ReactiveProperty<int> current_state = new(0);
     readonly Subject<Unit> on_finished = new();
     readonly CompositeDisposable composite_disposable = new();
-    readonly TimeInternal time_internal;
+    readonly ITimeInternal time_internal;
 
     TimeSpan time_elapsed_at_begin;
 
-    public TimerService(TimeInternal time_internal)
+    public TimerService(ITimeInternal time_internal)
     {
         this.time_internal = time_internal;
     }
@@ -42,7 +42,7 @@ public class TimerService : ITimerService, IDisposable
     public void Pause()
     {
         current_state.Value = 2;
-        time_internal.Dispose();
+        //time_internal.Dispose();
     }
 
     public void Resume()
@@ -70,7 +70,7 @@ public class TimerService : ITimerService, IDisposable
                     remaining_time.Value = TimeSpan.Zero;
                     on_finished.OnNext(Unit.Default);
                     on_finished.OnCompleted();
-                    time_internal.Dispose();
+                    //time_internal.Dispose();
                 }
             })
             .AddTo(composite_disposable);

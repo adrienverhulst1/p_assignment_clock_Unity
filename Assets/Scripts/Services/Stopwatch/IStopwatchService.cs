@@ -5,6 +5,7 @@ public interface IStopwatchService
 {
     IReadOnlyReactiveProperty<TimeSpan> ElapsedTime { get; }
     IReactiveCollection<TimeSpan> LapTimes { get; }
+    IReadOnlyReactiveProperty<SWStatus> CurrentState { get; }
     IReactiveCommand<Unit> Start { get; }
     IReactiveCommand<Unit> Stop { get; }
     IReactiveCommand<Unit> Reset { get; }

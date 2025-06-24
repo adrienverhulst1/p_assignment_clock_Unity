@@ -13,7 +13,7 @@ public class ClockService : IClockService, IDisposable
     private readonly ITimeSyncClient time_sync_client;
     TimeSpan time_network_offset = TimeSpan.Zero;
 
-    public ClockService(TimeInternal time_internal, ITimeSyncClient time_sync_client)
+    public ClockService(ITimeInternal time_internal, ITimeSyncClient time_sync_client)
     {
         this.time_sync_client = time_sync_client;
 
