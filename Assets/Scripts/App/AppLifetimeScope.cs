@@ -18,9 +18,14 @@ public enum TStatus
 
 public class AppLifetimeScope : LifetimeScope
 {
+    protected override void Awake()
+    {
+        base.Awake();
+        Application.runInBackground = true;
+    }
+
     protected override void Configure(IContainerBuilder builder)
     {
-        Application.runInBackground = true;
 
         //builder.RegisterComponentInNewPrefab<ManagerUI>(
         //    manager_prefab,
