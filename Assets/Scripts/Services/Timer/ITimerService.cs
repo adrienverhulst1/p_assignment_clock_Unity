@@ -8,7 +8,7 @@ public interface ITimerService
     IReactiveCommand<string> SetTargetTime { get; }
     IReactiveCommand<Unit> Start { get; }
     IReactiveCommand<Unit> Pause { get; }
-    IReactiveCommand<Unit> Resume { get; }
+    //IReactiveCommand<Unit> Resume { get; }
     IReactiveCommand<Unit> Reset { get; }
     IObservable<Unit> OnFinished { get; }
 }

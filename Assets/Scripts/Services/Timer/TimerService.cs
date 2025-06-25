@@ -25,7 +25,7 @@ public class TimerService : ITimerService, IDisposable
     //public IReactiveCommand<TimeSpan> Start { get; }
     public IReactiveCommand<Unit> Start { get; }
     public IReactiveCommand<Unit> Pause { get; }
-    public IReactiveCommand<Unit> Resume { get; }
+    //public IReactiveCommand<Unit> Resume { get; }
     public IReactiveCommand<Unit> Reset { get; }
 
     public static TimeSpan ParseFlexibleTimeString(string input)
@@ -128,15 +128,15 @@ public class TimerService : ITimerService, IDisposable
             })
             .AddTo(composite_disposable);
 
-        Resume = new ReactiveCommand<Unit>(CurrentState
-            .Select(x => x == TStatus.Paused));
-        Resume
-            .WithLatestFrom(CurrentState, (now, state) => new { now, state })
-            .Where(x => x.state == TStatus.Paused)
-            .Subscribe(x => {
-                current_state.Value = TStatus.Started; 
-            })
-            .AddTo(composite_disposable);
+        //Resume = new ReactiveCommand<Unit>(CurrentState
+        //    .Select(x => x == TStatus.Paused));
+        //Resume
+        //    .WithLatestFrom(CurrentState, (now, state) => new { now, state })
+        //    .Where(x => x.state == TStatus.Paused)
+        //    .Subscribe(x => {
+        //        current_state.Value = TStatus.Started; 
+        //    })
+        //    .AddTo(composite_disposable);
 
         Reset = new ReactiveCommand<Unit>(CurrentState
             .Select(x => x == TStatus.Started

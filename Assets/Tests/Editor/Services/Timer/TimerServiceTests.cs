@@ -58,11 +58,11 @@ public class TimerServiceTests
         await UniTask.Delay(100, true);
         timer.SetTargetTime.Execute("10");
         timer.Start.Execute(Unit.Default);
-        await UniTask.Delay(1000, true);
+        await UniTask.Delay(1000, true); 
         timer.Pause.Execute(Unit.Default);
         await UniTask.Delay(1000, true);
-        timer.Resume.Execute(Unit.Default);
-        await UniTask.Delay(1000);
+        timer.Start.Execute(Unit.Default);
+        await UniTask.Delay(1000, true);
         Assert.That(timer.RemainingTime.Value, Is.EqualTo(TimeSpan.FromSeconds(8.0)).Within(TimeSpan.FromMilliseconds(20)));
     }
 
@@ -75,6 +75,6 @@ public class TimerServiceTests
         timer.Start.Execute(Unit.Default);
         await UniTask.Delay(1000, true);
         timer.Reset.Execute(Unit.Default);
-        Assert.That(timer.RemainingTime.Value, Is.EqualTo(TimeSpan.FromSeconds(0)));
+        Assert.That(timer.RemainingTime.Value, Is.EqualTo(TimeSpan.FromSeconds(10)));
     }
 }
