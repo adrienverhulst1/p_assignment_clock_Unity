@@ -20,6 +20,8 @@ public class AppLifetimeScope : LifetimeScope
 {
     protected override void Configure(IContainerBuilder builder)
     {
+        Application.runInBackground = true;
+
         //builder.RegisterComponentInNewPrefab<ManagerUI>(
         //    manager_prefab,
         //    Lifetime.Singleton
