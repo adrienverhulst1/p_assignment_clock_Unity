@@ -6,7 +6,7 @@ public enum SWStatus
 {
     Default,
     Started,
-    Stopped
+    Paused
 }
 
 public enum TStatus
@@ -18,26 +18,42 @@ public enum TStatus
 
 public class AppLifetimeScope : LifetimeScope
 {
-    [SerializeField]
-    ClockUI clock_ui;
-    [SerializeField]
-    TimerUI timer_ui;
-    [SerializeField]
-    StopwatchUI stopwatch_ui;
-    [SerializeField]
-    PanelNavigationUI panel_navigation_ui;
-
     protected override void Configure(IContainerBuilder builder)
     {
+        //builder.RegisterComponentInNewPrefab<ManagerUI>(
+        //    manager_prefab,
+        //    Lifetime.Singleton
+        //);
+
         builder.Register<TimeInternal>(Lifetime.Singleton).As<ITimeInternal>();
         builder.Register<NTPTimeSyncClient>(Lifetime.Singleton).As<ITimeSyncClient>();
         builder.Register<ClockService>(Lifetime.Singleton).As<IClockService>();
         builder.Register<TimerService>(Lifetime.Singleton).As<ITimerService>();
         builder.Register<StopwatchService>(Lifetime.Singleton).As<IStopwatchService>();
 
-        builder.RegisterComponent(clock_ui);
-        builder.RegisterComponent(timer_ui);
-        builder.RegisterComponent(stopwatch_ui);
-        builder.RegisterComponent(panel_navigation_ui);
+        ManagerUI manager_prefab = Resources.Load<ManagerUI>("Main UI");
+        var manager_go = Instantiate(manager_prefab.gameObject);
+        builder.RegisterComponent(manager_go.GetComponent<ManagerUI>());
+        builder.RegisterComponent(manager_go.GetComponent<ClockUI>());
+        builder.RegisterComponent(manager_go.GetComponent<TimerUI>());
+        builder.RegisterComponent(manager_go.GetComponent<StopwatchUI>());
+        builder.RegisterComponent(manager_go.GetComponent<PanelNavigationUI>());
+
+        builder.RegisterEntryPoint<RootInitializer>();
+    }
+}
+
+public class RootInitializer : IInitializable
+{
+    readonly ManagerUI manager_ui;
+
+    public RootInitializer(ManagerUI manager_ui)
+    {
+        this.manager_ui = manager_ui;
+    }
+
+    public void Initialize()
+    {
+
     }
 }

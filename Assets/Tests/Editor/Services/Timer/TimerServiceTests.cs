@@ -19,11 +19,21 @@ public class TimerServiceTests
     }
 
     [Test]
+    public async Task Timer_SetTarget()
+    {
+        TimerService timer = new TimerService(time_internal);
+        await UniTask.Delay(100, true);
+        timer.SetTargetTime.Execute("10");
+        Assert.That(timer.RemainingTime.Value, Is.EqualTo(TimeSpan.FromSeconds(10.0)));
+    }
+
+    [Test]
     public async Task Timer_Start()
     {
         TimerService timer = new TimerService(time_internal);
         await UniTask.Delay(100, true);
-        timer.Start.Execute(TimeSpan.FromSeconds(10.0));
+        timer.SetTargetTime.Execute("10");
+        timer.Start.Execute(Unit.Default);
         await UniTask.Delay(1000, true);
         Assert.That(timer.RemainingTime.Value, Is.EqualTo(TimeSpan.FromSeconds(9.0)).Within(TimeSpan.FromMilliseconds(20)));
     }
@@ -33,7 +43,8 @@ public class TimerServiceTests
     {
         TimerService timer = new TimerService(time_internal);
         await UniTask.Delay(100, true);
-        timer.Start.Execute(TimeSpan.FromSeconds(10.0));
+        timer.SetTargetTime.Execute("10");
+        timer.Start.Execute(Unit.Default);
         await UniTask.Delay(1000, true);
         timer.Pause.Execute(Unit.Default);
         await UniTask.Delay(1000, true);
@@ -45,7 +56,8 @@ public class TimerServiceTests
     {
         TimerService timer = new TimerService(time_internal);
         await UniTask.Delay(100, true);
-        timer.Start.Execute(TimeSpan.FromSeconds(10.0));
+        timer.SetTargetTime.Execute("10");
+        timer.Start.Execute(Unit.Default);
         await UniTask.Delay(1000, true);
         timer.Pause.Execute(Unit.Default);
         await UniTask.Delay(1000, true);
@@ -59,7 +71,8 @@ public class TimerServiceTests
     {
         TimerService timer = new TimerService(time_internal);
         await UniTask.Delay(100, true);
-        timer.Start.Execute(TimeSpan.FromSeconds(10.0));
+        timer.SetTargetTime.Execute("10");
+        timer.Start.Execute(Unit.Default);
         await UniTask.Delay(1000, true);
         timer.Reset.Execute(Unit.Default);
         Assert.That(timer.RemainingTime.Value, Is.EqualTo(TimeSpan.FromSeconds(0)));

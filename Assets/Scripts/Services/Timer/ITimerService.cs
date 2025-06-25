@@ -5,7 +5,8 @@ public interface ITimerService
 {
     IReadOnlyReactiveProperty<TimeSpan> RemainingTime { get; }
     IReadOnlyReactiveProperty<TStatus> CurrentState { get; }
-    IReactiveCommand<TimeSpan> Start { get; }
+    IReactiveCommand<string> SetTargetTime { get; }
+    IReactiveCommand<Unit> Start { get; }
     IReactiveCommand<Unit> Pause { get; }
     IReactiveCommand<Unit> Resume { get; }
     IReactiveCommand<Unit> Reset { get; }

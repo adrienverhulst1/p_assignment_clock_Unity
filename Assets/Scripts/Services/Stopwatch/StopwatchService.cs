@@ -18,7 +18,8 @@ public class StopwatchService : IStopwatchService, IDisposable
 
     private readonly CompositeDisposable composite_disposable = new();
 
-    private TimeSpan time_elapsed_at_begin = TimeSpan.Zero;
+    private TimeSpan time_elapsed_offset = TimeSpan.Zero;
+    private TimeSpan time_elapsed_at_pause = TimeSpan.Zero;
 
     public StopwatchService(ITimeInternal time_internal)
     {
@@ -33,24 +34,35 @@ public class StopwatchService : IStopwatchService, IDisposable
             .WithLatestFrom(CurrentState, (now, state) => new { now, state })
             .Where(x => x.state == SWStatus.Started)
             .Subscribe(x => {
-                elapsed_time.Value = x.now - time_elapsed_at_begin;
+                elapsed_time.Value = x.now - time_elapsed_offset;
             })
             .AddTo(composite_disposable);
 
         Start = new ReactiveCommand<Unit>(CurrentState
             .Select(x => x == SWStatus.Default
             || x == SWStatus.Started
-            || x == SWStatus.Stopped));
-        Start.Subscribe(_ => {
-            time_elapsed_at_begin = time_internal.Now_Elapsed_Time.Value;
-            current_state.Value = SWStatus.Started;
-        })
+            || x == SWStatus.Paused));
+        Start
+            .WithLatestFrom(CurrentState, (now, state) => new { now, state })
+            .Subscribe(x => {
+                if(x.state == SWStatus.Started
+                || x.state == SWStatus.Default)
+                {
+                    time_elapsed_offset = time_internal.Now_Elapsed_Time.Value; 
+                }
+                else if(x.state == SWStatus.Paused)
+                {
+                    time_elapsed_offset = time_elapsed_offset + (time_internal.Now_Elapsed_Time.Value - time_elapsed_at_pause);
+                }
+                current_state.Value = SWStatus.Started;
+            })
             .AddTo(composite_disposable);
 
         Stop = new ReactiveCommand<Unit>(CurrentState
             .Select(x => x == SWStatus.Started));
         Stop.Subscribe(_ => {
-            current_state.Value = SWStatus.Stopped;
+            time_elapsed_at_pause = time_internal.Now_Elapsed_Time.Value;
+            current_state.Value = SWStatus.Paused;
         })
             .AddTo(composite_disposable);
 

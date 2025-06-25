@@ -5,7 +5,9 @@ using UniRx;
 using System;
 using System.Linq;
 using Codice.Client.Common;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("Play")]
 public class StopwatchUI : MonoBehaviour
 {
     [SerializeField] private TMPro.TMP_Text time;
@@ -16,6 +18,12 @@ public class StopwatchUI : MonoBehaviour
     [SerializeField] private Sprite stop_button_img;
     [SerializeField] private Button reset_button;
     [SerializeField] private Button lap_button;
+
+    internal TMPro.TMP_Text TimeText { get { return time; } }
+    internal TMPro.TMP_Text LapText { get { return laps_1; } }
+    internal Button StartStopButton { get { return start_stop_button; } }
+    internal Button ResetButton { get { return reset_button; } }
+    internal Button LapButton { get { return lap_button; } }
 
     private readonly CompositeDisposable composite_disposable = new();
 
@@ -32,16 +40,16 @@ public class StopwatchUI : MonoBehaviour
                     sw.Stop.Execute(Unit.Default);
                     start_stop_button.image.sprite = start_button_img;
 
-                    DisableButtonHelper(reset_button);
-                    DisableButtonHelper(lap_button);
+                    //reset_button.interactable = false;
+                    lap_button.interactable = false;
                 }
-                else if (sw.CurrentState.Value == SWStatus.Default || sw.CurrentState.Value == SWStatus.Stopped)
+                else if (sw.CurrentState.Value == SWStatus.Default || sw.CurrentState.Value == SWStatus.Paused)
                 {
                     sw.Start.Execute(Unit.Default);
                     start_stop_button.image.sprite = stop_button_img;
 
-                    EnableButtonHelper(reset_button);
-                    EnableButtonHelper(lap_button);
+                    //reset_button.interactable = true;
+                    lap_button.interactable = true;
                 }
             })
             .AddTo(composite_disposable);
@@ -51,10 +59,10 @@ public class StopwatchUI : MonoBehaviour
                 sw.Reset.Execute(Unit.Default);
 
                 start_stop_button.image.sprite = start_button_img;
-                DisableButtonHelper(reset_button);
-                DisableButtonHelper(lap_button);
+                //reset_button.interactable = false;
+                lap_button.interactable = false;
 
-                laps_1.text = "#1 00:00";
+                laps_1.text = "# 00:00";
             })
             .AddTo(composite_disposable);
 
@@ -63,7 +71,7 @@ public class StopwatchUI : MonoBehaviour
                 sw.Lap.Execute(Unit.Default);
                 if(sw.LapTimes.Count >= 0)
                 {
-                    laps_1.text = sw.LapTimes.LastOrDefault().ToString();
+                    laps_1.text = sw.LapTimes.LastOrDefault().ToString(@"mm\:ss\.ffff");
                 }
             })
             .AddTo(composite_disposable);
@@ -72,21 +80,5 @@ public class StopwatchUI : MonoBehaviour
     private void OnDestroy()
     {
         composite_disposable.Dispose();
-    }
-
-    void DisableButtonHelper(Button button)
-    {
-        button.interactable = false;
-        ColorBlock colors = button.colors;
-        colors.normalColor = Color.gray;
-        button.colors = colors;
-    }
-
-    void EnableButtonHelper(Button button)
-    {
-        button.interactable = true;
-        ColorBlock colors = button.colors;
-        colors.normalColor = Color.white;
-        button.colors = colors;
     }
 }
