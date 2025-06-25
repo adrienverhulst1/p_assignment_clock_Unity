@@ -1,9 +1,5 @@
-﻿using Palmmedia.ReportGenerator.Core.Common;
-using System;
-using System.Diagnostics;
-using TMPro;
+﻿using System;
 using UniRx;
-using static UnityEngine.GraphicsBuffer;
 
 public class TimerService : ITimerService, IDisposable
 {

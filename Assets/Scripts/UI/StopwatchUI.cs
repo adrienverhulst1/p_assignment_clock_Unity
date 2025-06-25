@@ -2,9 +2,7 @@ using UnityEngine;
 using UnityEngine.UI; // or TMPro
 using VContainer;
 using UniRx;
-using System;
 using System.Linq;
-using Codice.Client.Common;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Play")]
