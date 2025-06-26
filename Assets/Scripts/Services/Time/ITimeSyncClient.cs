@@ -3,5 +3,5 @@ using Cysharp.Threading.Tasks;
 
 public interface ITimeSyncClient
 {
-    UniTask<DateTime?> GetNetworkTimeAsync();
+    UniTask<DateTime?> GetNetworkTimeAsync(TimeSpan timeout);
 }

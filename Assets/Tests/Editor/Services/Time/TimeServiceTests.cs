@@ -28,7 +28,7 @@ public class TimeServiceTests
     }
 
     [Test]
-    public async Task NTP_RefreshAsync_NetworkTimeIsAvailable()
+    public async Task NTP_RefreshAsync_NetworkTimeIsAvailable() // I do not know how to validate this test properly. Here I verify there is a connexion, and NowUtc is still usable.
     {
         NTPTimeSyncClient ntp_time_sync_client = new NTPTimeSyncClient();
         ClockService ntp_clock_service = new ClockService(time_internal, ntp_time_sync_client);

@@ -49,10 +49,6 @@ jobs:
           path: Library
           key: Library-${{ matrix.targetPlatform }}
           restore-keys: Library-
-
-      - uses: game-ci/unity-builder@v4
-        with:
-          versioning: Semantic
     
       - uses: game-ci/unity-builder@v4
         env:
@@ -61,6 +57,7 @@ jobs:
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           targetPlatform: ${{ matrix.targetPlatform }}
+          versioning: Semantic
 
       - uses: actions/upload-artifact@v4
         with:

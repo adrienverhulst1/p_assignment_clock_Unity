@@ -7,7 +7,7 @@ public class MockTimeSyncClient : ITimeSyncClient
 {
     public DateTime? MockTime { get; set; }
 
-    public UniTask<DateTime?> GetNetworkTimeAsync()
+    public UniTask<DateTime?> GetNetworkTimeAsync(TimeSpan timeout)
     {
         return UniTask.FromResult(MockTime);
     }

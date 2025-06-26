@@ -12,8 +12,10 @@ public class PanelNavigationUI : MonoBehaviour
     [SerializeField] private TMPro.TMP_Text title;
     [SerializeField] private GameObject timer_panel;
     [SerializeField] private Button timer_button;
+    [SerializeField] private GameObject timer_highlight;
     [SerializeField] private GameObject stopwatch_panel;
     [SerializeField] private Button stopwatch_button;
+    [SerializeField] private GameObject stopwatch_highlight;
 
     internal TMPro.TMP_Text Title { get { return title; } }
     internal GameObject TimerPanel { get { return timer_panel; } }
@@ -44,8 +46,10 @@ public class PanelNavigationUI : MonoBehaviour
         title.text = "Timer";
         timer_panel.SetActive(true);
         stopwatch_panel.SetActive(false);
-        timer_button.interactable = false;
-        stopwatch_button.interactable = true;
+        //timer_button.interactable = false;
+        //stopwatch_button.interactable = true;
+        timer_highlight.SetActive(true);
+        stopwatch_highlight.SetActive(false);
     }
 
     internal void ActivateStopwatchPanel()
@@ -53,8 +57,10 @@ public class PanelNavigationUI : MonoBehaviour
         title.text = "Stopwatch";
         timer_panel.SetActive(false);
         stopwatch_panel.SetActive(true);
-        timer_button.interactable = true;
-        stopwatch_button.interactable = false;
+        //timer_button.interactable = true;
+        //stopwatch_button.interactable = false;
+        timer_highlight.SetActive(false);
+        stopwatch_highlight.SetActive(true);
     }
 
     private void OnDestroy()

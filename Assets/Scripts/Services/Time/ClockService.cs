@@ -31,6 +31,12 @@ public class ClockService : IClockService, IDisposable
             .Select(x => network_time.ToLocalTime() + x)
             .ToReadOnlyReactiveProperty()
             .AddTo(composite_disposable);
+
+        RefreshAsync().Forget(ex => UnityEngine.Debug.LogError($"RefreshAsync failed: {ex}")); // TODO
+
+        Observable.Interval(TimeSpan.FromDays(1)).Subscribe(_ => {
+            RefreshAsync().Forget(ex => UnityEngine.Debug.LogError($"RefreshAsync failed: {ex}")); // TODO
+        });
     }
 
     public void Dispose()
@@ -40,7 +46,7 @@ public class ClockService : IClockService, IDisposable
 
     public async UniTask RefreshAsync()
     {
-        var temp_network_time = await time_sync_client.GetNetworkTimeAsync();
+        var temp_network_time = await time_sync_client.GetNetworkTimeAsync(TimeSpan.FromSeconds(3));
         if (temp_network_time.HasValue) network_time = temp_network_time.Value;
         else throw new Exception($"RefreshAsync {temp_network_time} {temp_network_time.HasValue}");
     }
