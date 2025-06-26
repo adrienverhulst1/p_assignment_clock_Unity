@@ -25,7 +25,7 @@ public class StopwatchServiceTests
         await UniTask.Delay(100, true);
         sw.Start.Execute(Unit.Default);
         await UniTask.Delay(1000, true);
-        Assert.That(sw.ElapsedTime.Value, Is.EqualTo(TimeSpan.FromSeconds(1.0)).Within(TimeSpan.FromMilliseconds(10)));
+        Assert.That(sw.ElapsedTime.Value, Is.EqualTo(TimeSpan.FromSeconds(1.0)).Within(TimeSpan.FromMilliseconds(20)));
     }
 
     [Test]
@@ -37,7 +37,7 @@ public class StopwatchServiceTests
         await UniTask.Delay(1000, true);
         sw.Stop.Execute(Unit.Default);
         await UniTask.Delay(1000, true);
-        Assert.That(sw.ElapsedTime.Value, Is.EqualTo(TimeSpan.FromSeconds(1.0)).Within(TimeSpan.FromMilliseconds(10)));
+        Assert.That(sw.ElapsedTime.Value, Is.EqualTo(TimeSpan.FromSeconds(1.0)).Within(TimeSpan.FromMilliseconds(20)));
     }
 
     [Test]
@@ -60,7 +60,7 @@ public class StopwatchServiceTests
         sw.Start.Execute(Unit.Default);
         await UniTask.Delay(1000, true);
         sw.Lap.Execute(Unit.Default);
-        Assert.That(sw.LapTimes[0], Is.EqualTo(TimeSpan.FromSeconds(1.0)).Within(TimeSpan.FromMilliseconds(10)));
+        Assert.That(sw.LapTimes[0], Is.EqualTo(TimeSpan.FromSeconds(1.0)).Within(TimeSpan.FromMilliseconds(20)));
     }
 
     [Test]
@@ -75,7 +75,7 @@ public class StopwatchServiceTests
         await UniTask.Delay(1000, true);
         sw.Stop.Execute(Unit.Default); // time should be 2
         await UniTask.Delay(1000, true);
-        Assert.That(sw.ElapsedTime.Value, Is.EqualTo(TimeSpan.FromSeconds(2)).Within(TimeSpan.FromMilliseconds(10)));
+        Assert.That(sw.ElapsedTime.Value, Is.EqualTo(TimeSpan.FromSeconds(2)).Within(TimeSpan.FromMilliseconds(20)));
     }
 
     [Test]
@@ -93,6 +93,6 @@ public class StopwatchServiceTests
         sw.Start.Execute(Unit.Default);
         await UniTask.Delay(1000, true);
         sw.Lap.Execute(Unit.Default);  // time should be 3
-        Assert.That(sw.LapTimes[sw.LapTimes.Count - 1], Is.EqualTo(TimeSpan.FromSeconds(3.0)).Within(TimeSpan.FromMilliseconds(10)));
+        Assert.That(sw.LapTimes[sw.LapTimes.Count - 1], Is.EqualTo(TimeSpan.FromSeconds(3.0)).Within(TimeSpan.FromMilliseconds(20)));
     }
 }

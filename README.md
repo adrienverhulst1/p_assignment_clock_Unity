@@ -81,3 +81,9 @@ This project uses Github Actions with GameCI for CI/CD.
 - Versioning uses Git tags for `MAJOR.MINOR` and commit count for `PATCH`.
 - Release builds are auto-generated when a tag is pushed.
 
+### others
+
+You can watch a demo video here
+
+https://drive.google.com/file/d/1SG3CbKD-YSRGouNDUe1f7voU0jDHY-hx/view?usp=sharing
+

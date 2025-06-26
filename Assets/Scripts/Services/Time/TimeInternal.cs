@@ -10,7 +10,7 @@ public class TimeInternal : ITimeInternal, IDisposable
     readonly ReactiveProperty<TimeSpan> now_elapsed_time = new(TimeSpan.Zero);
     readonly CompositeDisposable composite_disposable = new();
 
-    private CancellationTokenSource cancel_token_source = new();
+    private CancellationTokenSource cancel_token_source = new(); // cannot be accessed
     Stopwatch stopwatch;
 
     public TimeInternal()
@@ -21,15 +21,25 @@ public class TimeInternal : ITimeInternal, IDisposable
     private async UniTaskVoid StartTicking()
     {
         stopwatch = Stopwatch.StartNew();
-
         var token = cancel_token_source.Token;
-        while (token.IsCancellationRequested == false)
+        var nextTick = stopwatch.Elapsed;
+
+        try
         {
-            now_elapsed_time.Value = stopwatch.Elapsed;
-            await UniTask.Delay(10,
-                DelayType.Realtime,
-                PlayerLoopTiming.Update,
-                token);
+            while (token.IsCancellationRequested == false)
+            {
+                now_elapsed_time.Value = stopwatch.Elapsed;
+
+                nextTick += TimeSpan.FromMilliseconds(10);
+                var delay = nextTick - stopwatch.Elapsed;
+
+                if (delay > TimeSpan.Zero) await UniTask.Delay(delay, DelayType.Realtime, PlayerLoopTiming.Update, token);
+                else await UniTask.Yield(PlayerLoopTiming.Update);
+            }
+        }
+        catch (OperationCanceledException e)
+        {
+            // ... TODO
         }
     }
 

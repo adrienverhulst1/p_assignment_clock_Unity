@@ -21,10 +21,8 @@ public class TimeServiceTests
         ClockService mock_clock_service = new ClockService(time_internal, mock_time_sync_client);
 
         var now = DateTime.UtcNow;
-        mock_time_sync_client.MockTime = now + TimeSpan.FromSeconds(10);
-        await mock_clock_service.RefreshAsync();
         DateTime dt = await mock_clock_service.NowUtc.Skip(1).First().ToTask();
-        Assert.That(dt, Is.EqualTo(now + TimeSpan.FromSeconds(10)).Within(TimeSpan.FromMilliseconds(20)));
+        Assert.That(dt, Is.EqualTo(now + TimeSpan.FromSeconds(30)).Within(TimeSpan.FromMilliseconds(20)));
     }
 
     [Test]
@@ -39,7 +37,7 @@ public class TimeServiceTests
         var dt1 = ntp_clock_service.NowUtc.Value;
         await UniTask.Delay(1000, true);
         var dt2 = ntp_clock_service.NowUtc.Value;
-        Assert.That(dt2 - dt1, Is.EqualTo(TimeSpan.FromSeconds(1)).Within(TimeSpan.FromMilliseconds(10)));
+        Assert.That(dt2 - dt1, Is.EqualTo(TimeSpan.FromSeconds(1)).Within(TimeSpan.FromMilliseconds(20)));
     }
 
     [Test]

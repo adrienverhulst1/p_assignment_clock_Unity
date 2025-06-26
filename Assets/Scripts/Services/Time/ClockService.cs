@@ -32,10 +32,10 @@ public class ClockService : IClockService, IDisposable
             .ToReadOnlyReactiveProperty()
             .AddTo(composite_disposable);
 
-        RefreshAsync().Forget(ex => UnityEngine.Debug.LogError($"RefreshAsync failed: {ex}")); // TODO
+        RefreshAsync().Forget(e => UnityEngine.Debug.LogError($"[E] RefreshAsync: {e}")); // TODO
 
         Observable.Interval(TimeSpan.FromDays(1)).Subscribe(_ => {
-            RefreshAsync().Forget(ex => UnityEngine.Debug.LogError($"RefreshAsync failed: {ex}")); // TODO
+            RefreshAsync().Forget(e => UnityEngine.Debug.LogError($"[E] RefreshAsync: {e}")); // TODO
         });
     }
 

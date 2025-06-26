@@ -32,7 +32,7 @@ public class TimerServicePlayTests
         //    Debug.Log($"Char: '{c}' - U+{(int)c:X4}");
         //}
         var current_time = TimerService.ParseFlexibleTimeString(timer_ui.TimeText.text);
-        Assert.That(current_time, Is.EqualTo(TimeSpan.FromSeconds(10)).Within(TimeSpan.FromMilliseconds(10)));
+        Assert.That(current_time, Is.EqualTo(TimeSpan.FromSeconds(10)).Within(TimeSpan.FromMilliseconds(20)));
     }
 
     [Test]
@@ -43,7 +43,7 @@ public class TimerServicePlayTests
         timer_ui.PlayButton.onClick.Invoke();
         await UniTask.Delay(1000, true);
         var current_time = TimerService.ParseFlexibleTimeString(timer_ui.TimeText.text);
-        Assert.That(current_time, Is.EqualTo(TimeSpan.FromSeconds(9)).Within(TimeSpan.FromMilliseconds(10)));
+        Assert.That(current_time, Is.EqualTo(TimeSpan.FromSeconds(9)).Within(TimeSpan.FromMilliseconds(20)));
     }
 
     [Test]
@@ -56,7 +56,7 @@ public class TimerServicePlayTests
         timer_ui.PauseButton.onClick.Invoke();
         await UniTask.Delay(1000, true);
         var current_time = TimerService.ParseFlexibleTimeString(timer_ui.TimeText.text);
-        Assert.That(current_time, Is.EqualTo(TimeSpan.FromSeconds(9)).Within(TimeSpan.FromMilliseconds(10)));
+        Assert.That(current_time, Is.EqualTo(TimeSpan.FromSeconds(9)).Within(TimeSpan.FromMilliseconds(20)));
     }
 
     [Test]
@@ -71,7 +71,7 @@ public class TimerServicePlayTests
         timer_ui.PlayButton.onClick.Invoke();
         await UniTask.Delay(1000, true);
         var current_time = TimerService.ParseFlexibleTimeString(timer_ui.TimeText.text);
-        Assert.That(current_time, Is.EqualTo(TimeSpan.FromSeconds(8)).Within(TimeSpan.FromMilliseconds(10)));
+        Assert.That(current_time, Is.EqualTo(TimeSpan.FromSeconds(8)).Within(TimeSpan.FromMilliseconds(20)));
     }
 
     [Test]

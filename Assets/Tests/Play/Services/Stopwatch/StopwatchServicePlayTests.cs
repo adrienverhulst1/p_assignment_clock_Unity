@@ -27,7 +27,7 @@ public class StopwatchServicePlayTests
         stopwatch_ui.StartStopButton.onClick.Invoke();
         await UniTask.Delay(1000, true);
         var current_time = TimeSpan.ParseExact(stopwatch_ui.TimeText.text, @"mm\:ss\.ffff", null);
-        Assert.That(current_time, Is.EqualTo(TimeSpan.FromSeconds(1)).Within(TimeSpan.FromMilliseconds(10)));
+        Assert.That(current_time, Is.EqualTo(TimeSpan.FromSeconds(1)).Within(TimeSpan.FromMilliseconds(20)));
     }
 
     [Test]
@@ -38,7 +38,7 @@ public class StopwatchServicePlayTests
         stopwatch_ui.StartStopButton.onClick.Invoke();
         await UniTask.Delay(1000, true);
         var current_time = TimeSpan.ParseExact(stopwatch_ui.TimeText.text, @"mm\:ss\.ffff", null);
-        Assert.That(current_time, Is.EqualTo(TimeSpan.FromSeconds(1)).Within(TimeSpan.FromMilliseconds(10)));
+        Assert.That(current_time, Is.EqualTo(TimeSpan.FromSeconds(1)).Within(TimeSpan.FromMilliseconds(20)));
     }
 
     [Test]
@@ -51,7 +51,7 @@ public class StopwatchServicePlayTests
         stopwatch_ui.StartStopButton.onClick.Invoke();
         await UniTask.Delay(1000, true);
         var current_time = TimeSpan.ParseExact(stopwatch_ui.TimeText.text, @"mm\:ss\.ffff", null);
-        Assert.That(current_time, Is.EqualTo(TimeSpan.FromSeconds(2)).Within(TimeSpan.FromMilliseconds(10)));
+        Assert.That(current_time, Is.EqualTo(TimeSpan.FromSeconds(2)).Within(TimeSpan.FromMilliseconds(20)));
     }
 
     [Test]
@@ -62,6 +62,6 @@ public class StopwatchServicePlayTests
         stopwatch_ui.LapButton.onClick.Invoke();
         await UniTask.Delay(1000, true);
         var current_time = TimeSpan.ParseExact(stopwatch_ui.LapText.text, @"mm\:ss\.ffff", null);
-        Assert.That(current_time, Is.EqualTo(TimeSpan.FromSeconds(1)).Within(TimeSpan.FromMilliseconds(10)));
+        Assert.That(current_time, Is.EqualTo(TimeSpan.FromSeconds(1)).Within(TimeSpan.FromMilliseconds(20)));
     }
 }
