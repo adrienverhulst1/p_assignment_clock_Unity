@@ -87,3 +87,5 @@ You can watch a demo video here
 
 https://drive.google.com/file/d/1SG3CbKD-YSRGouNDUe1f7voU0jDHY-hx/view?usp=sharing
 
+The beep sound:
+beep.mp3 by freesoundtrytrynow -- https://freesound.org/s/570166/ -- License: Attribution 3.0
